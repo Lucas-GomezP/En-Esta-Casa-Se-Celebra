@@ -122,12 +122,13 @@ function App() {
   // Eventos del día seleccionado para mostrar abajo
   const selectedDayEvents = selectedDayDetail ? getEventsForDay(selectedDayDetail) : [];
 
+  const [openInfo, setOpenInfo] = useState(true);
   return (
-    <>
-      <header>
-        <h1 className="text-3xl font-bold text-center p-10 mb-4 rounded-b-xl bg-gray-50">🎉 En Esta Casa Se Celebra 🎉</h1>
+    <section className="flex flex-col min-h-screen">
+      <header className="mb-4 top-0 left-0 right-0 rounded-b-xl bg-white/80 backdrop-blur-md border-b border-gray-200 p-4 z-30">
+        <h1 className="text-3xl font-bold text-center p-4">🎉 En Esta Casa Se Celebra 🎉</h1>
       </header>
-      <div className="max-w-md mx-auto p-4 font-sans bg-gray-50 rounded-xl">
+      <main className="flex-1 max-w-md mx-auto p-4 font-sans bg-gray-50 rounded-xl">
         <header className="flex justify-between items-center mb-6 bg-white p-4 rounded-xl shadow-sm">
           <button onClick={handlePrevMonth} className="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200">⏮</button>
           <h2 className="capitalize font-bold text-xl text-gray-800">{monthName} {selectedYear}</h2>
@@ -160,7 +161,6 @@ function App() {
                   {dayNumber}
                 </span>
 
-                {/* Iconos (máximo 3 puntitos o iconos para no saturar) */}
                 <div className="flex flex-wrap justify-center gap-0.5 w-full overflow-hidden h-8">
                   {dayEvents.slice(0, 2).map((evt, idx) => (
                     <span key={idx} className="text-xs leading-none">{evt.icono}</span>
@@ -172,7 +172,6 @@ function App() {
           })}
         </ol>
         
-        {/* DETALLE DE EVENTOS (Panel Inferior) */}
         <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100">
           <h3 className="text-lg font-bold text-gray-800 mb-3 border-b pb-2">
             {selectedDayDetail 
@@ -205,26 +204,98 @@ function App() {
             ))}
           </div>
         </div>
-
-        
-
         {loading && <div className="fixed inset-0 bg-white/80 flex items-center justify-center">
           <span className="animate-pulse text-indigo-600 font-bold">Cargando fiestas...</span>
         </div>}
-      </div>
-      <footer className="mt-4 bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md border-t border-gray-200 p-4 z-50">
+        {openInfo && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <div 
+              className="absolute inset-0 bg-black/40 backdrop-blur-sm" 
+              onClick={() => setOpenInfo(false)}
+            ></div>
+
+            <div className="relative bg-white rounded-2xl shadow-xl p-8 max-w-sm w-full border border-gray-100 animate-in zoom-in duration-200">
+              <button 
+                onClick={() => setOpenInfo(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+              >
+                ✕
+              </button>
+
+              <div className="text-center">
+                <span className="text-4xl mb-4 block">🏠</span>
+                <h3 className="text-xl font-bold text-gray-800 mb-4">
+                  En Esta Casa Se Celebra
+                </h3>
+                
+                <div className="text-sm text-gray-600 text-left space-y-3 leading-relaxed">
+                  <p>
+                    ¡Hola! Soy <strong>Lucas</strong>. Este proyecto nació de una convicción simple: la vida es mejor cuando se celebra.
+                  </p>
+                  <p>
+                    Para mi novia y para mí, siempre hay "excusas" para juntarnos con seres queridos. Si no hay un motivo, lo inventamos.
+                  </p>
+                  <p>
+                    En la casa de los <strong>Gómez y los González</strong>, el festejo es parte de nuestra cultura. Creé esta app para tener esos eventos siempre presentes.
+                  </p>
+                  <img
+                    src="op.png"
+                    alt="one piece jolly roger"
+                    className="w-12 mx-auto"
+                  />
+                </div>
+
+                <div className="flex justify-center gap-6 mt-4 pt-6 border-t border-gray-100">
+                  <a 
+                    href="https://instagram.com/TU_USUARIO" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex flex-col items-center group"
+                  >
+                    <span className="text-2xl group-hover:scale-110 transition-transform">📸</span>
+                    <span className="text-[10px] font-bold text-gray-400 group-hover:text-pink-500 uppercase">Instagram</span>
+                  </a>
+                  
+                  <a 
+                    href="https://github.com/TU_USUARIO" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex flex-col items-center group"
+                  >
+                    <span className="text-2xl group-hover:scale-110 transition-transform">💻</span>
+                    <span className="text-[10px] font-bold text-gray-400 group-hover:text-black uppercase">GitHub</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </main>
+      <footer className="mt-4 bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md border-t border-gray-200 p-4 z-30">
         <div className="max-w-md mx-auto flex justify-around items-center">
-          <div className="flex flex-col items-center text-indigo-600">
-            <p className="text-lg font-bold">Los Gomez los Gonzalez Celebran</p>
-          </div>
-          <div className="flex flex-col items-center text-gray-400 hover:text-indigo-400 transition cursor-pointer" 
-              onClick={() => window.open('https://docs.google.com/forms/d/e/1FAIpQLSfjg5_DUWEFuwwi4PrvIKigbPC9ZF2fu342Ox6fCK27U3eEIg/viewform?usp=publish-editor', '_blank')}>
-            <span className="text-xl">➕</span>
-            <span className="text-[10px] font-bold uppercase tracking-tighter">Nuevo Evento</span>
-          </div>
+          <a className="group flex flex-col items-center text-gray-400 hover:text-indigo-400 transition cursor-pointer" 
+            href="https://docs.google.com/spreadsheets/d/1S83GnjUOk56dbL0iHlnkFHeDIBOVwA8mRd7-KJ2HEiE/edit?usp=sharing"
+            target="_blank"
+          >
+            <span className="text-xl group-hover:scale-110 transition-transform">📅</span>
+            <span className="text-[10px] font-bold uppercase tracking-tighter">Modificar eventos</span>
+          </a>
+          <a className="group flex flex-col items-center text-gray-400 hover:text-indigo-400 transition cursor-pointer" 
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfjg5_DUWEFuwwi4PrvIKigbPC9ZF2fu342Ox6fCK27U3eEIg/viewform?usp=publish-editor"
+            target="_blank"
+          >
+            <span className="text-xl group-hover:scale-110 transition-transform">➕</span>
+            <span className="text-[10px] font-bold uppercase tracking-tighter">Cargar Nuevo Evento</span>
+          </a>
+          <button className="group flex flex-col items-center text-gray-400 hover:text-indigo-400 transition cursor-pointer"
+            onClick={() => setOpenInfo(!openInfo)}
+          >
+            <span className="text-xl group-hover:scale-110 transition-transform">🧙‍♂️</span>
+            <span className="text-[10px] font-bold uppercase tracking-tighter">Sobre el Proyecto</span>
+          </button>
         </div>
       </footer>
-    </>
+    </section>
   )
 }
 
