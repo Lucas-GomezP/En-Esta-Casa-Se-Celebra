@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react"
 
-// URL 1: Eventos Fijos (La que ya tenías)
 const FIXED_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTK0K8Sm6UEvmeBz8dCz_WI8j7GO3F6XAfI5J8c0ZAHqwMKXtjyTtXk7yTCUu-g302uJ8dH_OxyqPrX/pub?gid=954616486&single=true&output=tsv";
-// URL 2: Eventos Ocasionales (La del Google Form)
 const OCCASIONAL_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTK0K8Sm6UEvmeBz8dCz_WI8j7GO3F6XAfI5J8c0ZAHqwMKXtjyTtXk7yTCUu-g302uJ8dH_OxyqPrX/pub?gid=853423287&single=true&output=tsv";
 
 function App() {
@@ -25,7 +23,6 @@ function App() {
 
   // --- 1. Carga de Datos ---
   useEffect(() => {
-    // Usamos Promise.all para cargar ambas hojas simultáneamente
     Promise.all([
       fetch(FIXED_SHEET_URL).then(res => res.text()),
       fetch(OCCASIONAL_SHEET_URL).then(res => res.text())
@@ -43,7 +40,7 @@ function App() {
           descripcion,
           icono: icono?.trim()
         };
-      }).filter(e => !isNaN(e.dia)); // Filtro de seguridad
+      }).filter(e => !isNaN(e.dia));
 
       // B) Procesar Ocasionales (Formato: Timestamp | Titulo | Desc | FECHA | Icono)
       const occasionalRows = occasionalText.split("\n").slice(1);
@@ -55,7 +52,6 @@ function App() {
         const [titulo, descripcion, fechaString, icono] = columns;
         
         // Parsear fecha "DD/MM/YYYY" (ej: 27/02/2026)
-        // Ojo: Si tu excel está en inglés podría ser MM/DD/YYYY. Asumo formato latino.
         const [diaStr, mesStr, anioStr] = fechaString.split("/");
         
         return {
@@ -77,7 +73,7 @@ function App() {
 
   // --- Navegación ---
   const handlePrevMonth = () => {
-    setSelectedDayDetail(null); // Limpiamos detalle al cambiar mes
+    setSelectedDayDetail(null);
     if (selectedMonth === 0) {
       setSelectedMonth(11); setSelectedYear(selectedYear - 1);
     } else {
@@ -122,7 +118,7 @@ function App() {
   // Eventos del día seleccionado para mostrar abajo
   const selectedDayEvents = selectedDayDetail ? getEventsForDay(selectedDayDetail) : [];
 
-  const [openInfo, setOpenInfo] = useState(true);
+  const [openInfo, setOpenInfo] = useState(false);
   return (
     <section className="flex flex-col min-h-screen">
       <header className="mb-4 top-0 left-0 right-0 rounded-b-xl bg-white/80 backdrop-blur-md border-b border-gray-200 p-4 z-30">
@@ -192,7 +188,6 @@ function App() {
                 <div>
                   <h4 className="font-bold text-gray-800 flex items-center gap-2">
                     {evt.titulo}
-                    {/* Etiqueta para diferenciar tipos */}
                     {evt.type === 'fijo' 
                       ? <span className="text-[10px] uppercase tracking-wider bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">Anual</span>
                       : <span className="text-[10px] uppercase tracking-wider bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded">Ocasional</span>
