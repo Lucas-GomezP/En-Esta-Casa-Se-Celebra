@@ -242,7 +242,7 @@ function App() {
 
                 <div className="flex justify-center gap-6 mt-4 pt-6 border-t border-gray-100">
                   <a 
-                    href="https://instagram.com/TU_USUARIO" 
+                    href="https://www.instagram.com/lucas.gomezp?igsh=NWg0YzVkdXJ3OW5i" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex flex-col items-center group"
@@ -252,7 +252,7 @@ function App() {
                   </a>
                   
                   <a 
-                    href="https://github.com/TU_USUARIO" 
+                    href="https://github.com/Lucas-GomezP/En-Esta-Casa-Se-Celebra" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex flex-col items-center group"
