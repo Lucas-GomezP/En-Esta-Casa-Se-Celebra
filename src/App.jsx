@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 
+// URL 1: Eventos Fijos (La que ya tenías)
 const FIXED_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTK0K8Sm6UEvmeBz8dCz_WI8j7GO3F6XAfI5J8c0ZAHqwMKXtjyTtXk7yTCUu-g302uJ8dH_OxyqPrX/pub?gid=954616486&single=true&output=tsv";
+// URL 2: Eventos Ocasionales (La del Google Form)
 const OCCASIONAL_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTK0K8Sm6UEvmeBz8dCz_WI8j7GO3F6XAfI5J8c0ZAHqwMKXtjyTtXk7yTCUu-g302uJ8dH_OxyqPrX/pub?gid=853423287&single=true&output=tsv";
 
 function App() {
@@ -28,7 +30,6 @@ function App() {
       fetch(OCCASIONAL_SHEET_URL).then(res => res.text())
     ]).then(([fixedText, occasionalText]) => {
       
-      // A) Procesar Fijos (Formato: Dia | Mes | Titulo | Desc | Icono)
       const fixedRows = fixedText.split("\n").slice(1);
       const parsedFixed = fixedRows.map(row => {
         const [dia, mes, titulo, descripcion, icono] = row.split("\t");
@@ -40,9 +41,8 @@ function App() {
           descripcion,
           icono: icono?.trim()
         };
-      }).filter(e => !isNaN(e.dia));
+      }).filter(e => !isNaN(e.dia)); // Filtro de seguridad
 
-      // B) Procesar Ocasionales (Formato: Timestamp | Titulo | Desc | FECHA | Icono)
       const occasionalRows = occasionalText.split("\n").slice(1);
       const parsedOccasional = occasionalRows.map(row => {
         const columns = row.split("\t");
@@ -73,7 +73,7 @@ function App() {
 
   // --- Navegación ---
   const handlePrevMonth = () => {
-    setSelectedDayDetail(null);
+    setSelectedDayDetail(null); // Limpiamos detalle al cambiar mes
     if (selectedMonth === 0) {
       setSelectedMonth(11); setSelectedYear(selectedYear - 1);
     } else {
@@ -151,7 +151,7 @@ function App() {
                   aspect-square border rounded-xl flex flex-col justify-between items-center p-1 cursor-pointer transition-all
                   ${isSelected ? 'ring-2 ring-indigo-500 border-transparent z-10' : 'border-gray-200'}
                   ${hasEvents ? 'bg-white shadow-sm hover:shadow-md' : 'hover:bg-gray-100'}
-                  ${today ? 'bg-indigo-400 text-white' : ''}
+                  ${today ? 'bg-indigo-400' : ''}
                 `}
               >
                 <span className={`text-xs font-semibold ${hasEvents ? 'text-gray-800' : 'text-gray-400'}`}>
@@ -189,6 +189,7 @@ function App() {
                 <div>
                   <h4 className="font-bold text-gray-800 flex items-center gap-2">
                     {evt.titulo}
+                    {/* Etiqueta para diferenciar tipos */}
                     {evt.type === 'fijo' 
                       ? <span className="text-[10px] uppercase tracking-wider bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">Anual</span>
                       : <span className="text-[10px] uppercase tracking-wider bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded">Ocasional</span>
@@ -243,7 +244,7 @@ function App() {
 
                 <div className="flex justify-center gap-6 mt-4 pt-6 border-t border-gray-100">
                   <a 
-                    href="https://www.instagram.com/lucas.gomezp?igsh=NWg0YzVkdXJ3OW5i" 
+                    href="https://instagram.com/TU_USUARIO" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex flex-col items-center group"
@@ -253,7 +254,7 @@ function App() {
                   </a>
                   
                   <a 
-                    href="https://github.com/Lucas-GomezP/En-Esta-Casa-Se-Celebra" 
+                    href="https://github.com/TU_USUARIO" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex flex-col items-center group"
