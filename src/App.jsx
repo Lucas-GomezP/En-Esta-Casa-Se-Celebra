@@ -52,7 +52,7 @@ function App() {
         // Aseguramos que la fila tenga datos
         if (columns.length < 4) return null;
 
-        const [titulo, descripcion, fechaString, icono] = columns;
+        const [_,titulo, descripcion, fechaString, icono] = columns;
         
         // Parsear fecha "DD/MM/YYYY" (ej: 27/02/2026)
         // Ojo: Si tu excel está en inglés podría ser MM/DD/YYYY. Asumo formato latino.
@@ -122,7 +122,7 @@ function App() {
   // Eventos del día seleccionado para mostrar abajo
   const selectedDayEvents = selectedDayDetail ? getEventsForDay(selectedDayDetail) : [];
 
-  const [openInfo, setOpenInfo] = useState(true);
+  const [openInfo, setOpenInfo] = useState(false);
   return (
     <section className="flex flex-col min-h-screen">
       <header className="mb-4 top-0 left-0 right-0 rounded-b-xl bg-white/80 backdrop-blur-md border-b border-gray-200 p-4 z-30">
@@ -145,7 +145,7 @@ function App() {
             const dayEvents = getEventsForDay(dayNumber);
             const hasEvents = dayEvents.length > 0;
             const isSelected = selectedDayDetail === dayNumber;
-
+            const today = dayNumber === date.getDate() && selectedMonth === date.getMonth() && selectedYear === date.getFullYear();
             return (
               <li
                 key={day}
@@ -155,6 +155,7 @@ function App() {
                   aspect-square border rounded-xl flex flex-col justify-between items-center p-1 cursor-pointer transition-all
                   ${isSelected ? 'ring-2 ring-indigo-500 border-transparent z-10' : 'border-gray-200'}
                   ${hasEvents ? 'bg-white shadow-sm hover:shadow-md' : 'hover:bg-gray-100'}
+                  ${today ? 'bg-indigo-400 text-white' : ''}
                 `}
               >
                 <span className={`text-xs font-semibold ${hasEvents ? 'text-gray-800' : 'text-gray-400'}`}>
